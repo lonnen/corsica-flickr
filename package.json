@@ -1,0 +1,26 @@
+{
+  "name": "corsica-flickr",
+  "version": "0.1.0",
+  "description": "grab and display an image from flickr",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lonnen/corsica-flickr.git"
+  },
+  "keywords": [
+    "corsica"
+  ],
+  "author": "lonnen",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/lonnen/corsica-flickr/issues"
+  },
+  "homepage": "https://github.com/lonnen/corsica-flickr#readme",
+  "dependencies": {
+    "es6-promise": "^2.3.0",
+    "flickrapi": "^0.3.34"
+  }
+}
