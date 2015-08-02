@@ -99,12 +99,10 @@ module.exports = function (corsica) {
                           match[3])) // user ID
       .then(randomItem)
       .then(getPhotoUrl)
-      .then(function sendUrl(url){
+      .then(function(imageURL) {
         return new Promise(function(resolve, reject) {
-          corsica.sendMessage('content', {
-            url: imageURL,
-            screen: msg.screen
-          });
+          content.url = imageURL;
+          resolve(content);
         });
       }).catch(console.log);
   });
