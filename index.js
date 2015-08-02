@@ -77,13 +77,6 @@ function randomItem(arr) {
   });
 }
 
-function sendUrl(url){
-  corsica.sendMessage('content', {
-    url: imageURL,
-    screen: msg.screen
-  });
-}
-
 module.exports = function (corsica) {
 
   flickrOptions.api_key = corsica.config.flickr_api_key;
@@ -106,8 +99,13 @@ module.exports = function (corsica) {
                           match[3])) // user ID
       .then(randomItem)
       .then(getPhotoUrl)
-      .then(sendUrl)
-      .catch(console.log);
-
+      .then(function sendUrl(url){
+        return new Promise(function(resolve, reject) {
+          corsica.sendMessage('content', {
+            url: imageURL,
+            screen: msg.screen
+          });
+        });
+      }).catch(console.log);
   });
 };
