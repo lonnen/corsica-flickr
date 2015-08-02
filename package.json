@@ -1,5 +1,5 @@
 {
-  "name": "corsica-flickr",
+  "name": "corsica-flickr-2",
   "version": "0.1.0",
   "description": "grab and display an image from flickr",
   "main": "index.js",
@@ -14,7 +14,7 @@
     "corsica"
   ],
   "author": "lonnen",
-  "license": "BSD-2-Clause",
+  "license": "MPLv2",
   "bugs": {
     "url": "https://github.com/lonnen/corsica-flickr/issues"
   },
