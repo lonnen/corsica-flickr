@@ -16,11 +16,9 @@ var Flickr = require('flickrapi');
 var log = console.log.bind(console, '[flickr]');
 
 var flickr;
-var flickrOptions = {
-  progress: false
-};
 function getFlickrToken(flickrOptions) {
   return new Promise(function(resolve, reject) {
+
     Flickr.tokenOnly(flickrOptions, function(error, f) {
       if (error) {
         reject(error);
@@ -79,9 +77,11 @@ function randomItem(arr) {
 
 module.exports = function (corsica) {
 
-  flickrOptions.api_key = corsica.config.flickr_api_key;
-  flickrOptions.secret = corsica.config.flickr_secret;
-  request = corsica.request;
+  var flickrReady = getFlickrToken({
+    api_key: corsica.config.flickr_api_key,
+    secret: corsica.config.flickr_secret,
+    progress: false
+  });
 
   corsica.on('content', function(content) {
     if (!('url' in content)) {
@@ -94,7 +94,7 @@ module.exports = function (corsica) {
       return content;
     }
 
-    return getFlickrToken(flickrOptions)
+    return flickrReady
       .then(fetchPhotoset(match[4],  // photoset ID
                           match[3])) // user ID
       .then(randomItem)
