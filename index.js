@@ -104,6 +104,6 @@ module.exports = function (corsica) {
           content.url = imageURL;
           resolve(content);
         });
-      }).catch(console.log);
+      }).catch(console.error.bind(console));
   });
 };
