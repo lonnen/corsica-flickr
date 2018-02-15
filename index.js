@@ -75,8 +75,28 @@ function randomItem(arr) {
   });
 }
 
-module.exports = function (corsica) {
+function search(tag) {
+  const options = {
+    tags: [content.tag],
+    license: 9,  // CC0
+    sort: 'interestingness-desc',
+    privacy_filter: 1, // public
+    safe_search: 1, // on
+    content_type: 1, // photos only
+  };
 
+  return new Promise((resolve, reject) => {
+    flickr.photos.search(options, (err, res) => {
+      if (err) {
+        return reject(err);
+      } else {
+        resolve(res.photos.photo);
+      }
+    });
+  });
+}
+
+module.exports = function (corsica) {
   var flickrReady = getFlickrToken({
     api_key: corsica.config.flickr_api_key,
     secret: corsica.config.flickr_secret,
@@ -104,6 +124,20 @@ module.exports = function (corsica) {
           content.url = imageURL;
           resolve(content);
         });
-      }).catch(console.error.bind(console));
+      })
+      .catch(console.error.bind(console));
+  });
+
+  corsica.on('flickr.search', function(content) {
+    search(content.tag)
+      .then(randomItem)
+      .then(getPhotoUrl)
+      .then(function (imageURL) {
+        return new Promise(function(resolve) {
+          content.url = imageURL;
+          resolve(content);
+        });
+      })
+      .catch(console.error.bind(console));
   });
 };
