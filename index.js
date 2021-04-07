@@ -4,7 +4,6 @@
  *
  * Configuration:
  *    flickr_api_key - API key that you get from Flickr
- *    flickr_secret  - API key secret that you get from Flickr
  *
  * Author:
  *    lonnen
