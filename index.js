@@ -25,10 +25,10 @@ module.exports = (corsica) => {
       return content;
     }
 
-    userID = match[3];
-    photosetID = match[4];
+    const userID = match[3];
+    const photosetID = match[4];
 
-    return flickr.photosets.getPhotos({user_id: userID, photoset_id: photsetID})
+    return flickr.photosets.getPhotos({user_id: userID, photoset_id: photosetID})
       .then((result) => {
         arr = result.photoset.photo;
         return Promise.resolve(arr[Math.floor(Math.random() * arr.length)])})
