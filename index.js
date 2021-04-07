@@ -19,7 +19,7 @@ module.exports = (corsica) => {
       return content;
     }
 
-    var match = /^(https?:\/\/)?(www\.)?flickr.com\/photos\/(\S*)\/sets\/(\S*)?\/?$/.exec(content.url);
+    const match = /^(https?:\/\/)?(www\.)?flickr.com\/photos\/(\S*)\/sets\/(\S*)?\/?$/.exec(content.url);
 
     if (!match) {
       return content;
