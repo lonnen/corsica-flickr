@@ -14,7 +14,7 @@ const FlickrSDK = require('flickr-sdk');
 module.exports = (corsica) => {
   const flickr = new FlickrSDK(corsica.config.flickr_api_key);
 
-  corsica.on('content', function(content) {
+  corsica.on('content', (content) => {
     if (!('url' in content)) {
       return content;
     }
