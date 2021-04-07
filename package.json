@@ -4,7 +4,8 @@
   "description": "grab and display an image from flickr",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint *.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,8 @@
     "flickr-sdk": "^3.10.0"
   },
   "devDependencies": {
-    "eslint": "^7.23.0"
+    "eslint": "^7.23.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   }
 }
