@@ -12,11 +12,9 @@
 const FlickrSDK = require('flickr-sdk');
 
 module.exports = corsica => {
-
   const flickr = new FlickrSDK(corsica.config.flickr_api_key);
 
   corsica.on('content', function(content) {
-
     if (!('url' in content)) {
       return content;
     }
@@ -31,7 +29,9 @@ module.exports = corsica => {
     photosetID = match[4];
 
     return flickr.photosets.getPhotos({user_id: userID, photoset_id: photsetID})
-      .then(arr => { Promise.resolve(arr[Math.floor(Math.random() * arr.length)])})
+      .then(result => {
+        arr = result.photoset.photo;
+        return Promise.resolve(arr[Math.floor(Math.random() * arr.length)])})
       .then(photo => { flickr.photos.getSizes({photo_id: photo.id})})
       .then(response => {
         let sizes = result.sizes.size;
