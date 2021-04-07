@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/lonnen/corsica-flickr#readme",
   "dependencies": {
-    "es6-promise": "^2.3.0",
-    "flickrapi": "^0.3.34"
+    "flickr-sdk": "^3.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.23.0"
   }
 }

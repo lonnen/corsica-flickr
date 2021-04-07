@@ -10,80 +10,14 @@
  *    lonnen
  */
 
-var Promise = require('es6-promise').Promise;
-var Flickr = require('flickrapi');
+const FlickrSDK = require('flickr-sdk');
 
-var log = console.log.bind(console, '[flickr]');
+module.exports = corsica => {
 
-var flickr;
-function getFlickrToken(flickrOptions) {
-  return new Promise(function(resolve, reject) {
-
-    Flickr.tokenOnly(flickrOptions, function(error, f) {
-      if (error) {
-        reject(error);
-        return;
-      }
-
-      // setup a global flickr object
-      // non-consecutive functions need access
-      // and this seems somehow less gross than passing
-      // it forward forever
-      flickr = f;
-      resolve();
-    });
-  });
-}
-
-function fetchPhotoset(photosetID, userID) {
-  return function() {
-    return new Promise(function(resolve, reject) {
-      flickr.photosets.getPhotos({
-        photoset_id: photosetID,
-        user_id: userID
-      }, function(err, result) {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(result.photoset.photo);
-      });
-    });
-  };
-}
-
-function getPhotoUrl(photo) {
-  return new Promise(function(resolve, reject) {
-    flickr.photos.getSizes({
-      photo_id: photo.id
-    }, function(err, result) {
-      if (err) {
-        reject(err);
-        return;
-      }
-
-      var sizes = result.sizes.size;
-      resolve(sizes[sizes.length-1].source);
-    });
-  });
-}
-
-function randomItem(arr) {
-  return new Promise(function(resolve, reject) {
-    resolve(arr[Math.floor(Math.random() * arr.length)]);
-  });
-}
-
-module.exports = function (corsica) {
-
-  var flickrReady = getFlickrToken({
-    api_key: corsica.config.flickr_api_key,
-    secret: corsica.config.flickr_secret,
-    progress: false
-  });
+  const flickr = new FlickrSDK(corsica.config.flickr_api_key);
 
   corsica.on('content', function(content) {
+
     if (!('url' in content)) {
       return content;
     }
@@ -94,16 +28,20 @@ module.exports = function (corsica) {
       return content;
     }
 
-    return flickrReady
-      .then(fetchPhotoset(match[4],  // photoset ID
-                          match[3])) // user ID
-      .then(randomItem)
-      .then(getPhotoUrl)
-      .then(function(imageURL) {
-        return new Promise(function(resolve, reject) {
+    userID = match[3];
+    photosetID = match[4];
+
+    return flickr.photosets.getPhotos({user_id: userID, photoset_id: photsetID})
+      .then(arr => { Promise.resolve(arr[Math.floor(Math.random() * arr.length)])})
+      .then(photo => { flickr.photos.getSizes({photo_id: photo.id})})
+      .then(response => {
+        let sizes = result.sizes.size;
+        return Promise.resolve(sizes[sizes.length-1].source);
+      })
+      .then(imageURL => {
           content.url = imageURL;
-          resolve(content);
-        });
-      }).catch(console.error.bind(console));
+          return Promise.resolve(content);
+        })
+      .catch(console.error.bind(console));
   });
 };
