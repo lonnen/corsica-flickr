@@ -30,7 +30,7 @@ module.exports = (corsica) => {
 
     return flickr.photosets.getPhotos({user_id: userID, photoset_id: photosetID})
       .then((result) => {
-        arr = result.photoset.photo;
+        const arr = result.photoset.photo;
         return Promise.resolve(arr[Math.floor(Math.random() * arr.length)])})
       .then((photo) => { flickr.photos.getSizes({photo_id: photo.id})})
       .then((response) => {
