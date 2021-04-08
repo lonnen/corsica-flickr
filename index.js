@@ -39,9 +39,9 @@ module.exports = (corsica) => {
         return Promise.resolve(sizes[sizes.length-1].source);
       })
       .then((imageURL) => {
-          content.url = imageURL;
-          return Promise.resolve(content);
-        })
+        content.url = imageURL;
+        return Promise.resolve(content);
+      })
       .catch(console.error.bind(console));
   });
 };
