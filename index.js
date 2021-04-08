@@ -36,7 +36,7 @@ module.exports = (corsica) => {
       .then((photo) => { flickr.photos.getSizes({ photo_id: photo.id }); })
       .then((response) => {
         const sizes = response.sizes.size;
-        return Promise.resolve(sizes[sizes.length-1].source);
+        return Promise.resolve(sizes[sizes.length - 1].source);
       })
       .then((imageURL) => {
         content.url = imageURL;
