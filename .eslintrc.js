@@ -1,6 +1,6 @@
 module.exports = {
   env: {
-    browser: true,
+    browser: false,
     es2021: true,
   },
   extends: [
@@ -12,5 +12,6 @@ module.exports = {
   },
   rules: {
     'no-param-reassign': 'off',
+    'no-console': 'off',
   },
 };
