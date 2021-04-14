@@ -4,7 +4,8 @@
   "description": "grab and display an image from flickr",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint *.js"
+    "lint": "eslint *.js",
+    "test": "./node_modules/.bin/mocha tests.js"
   },
   "repository": {
     "type": "git",

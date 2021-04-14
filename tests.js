@@ -7,7 +7,7 @@ const { fetchRandomPhotoURL } = require('.');
 // eslint-disable-next-line no-underscore-dangle
 
 describe('the non-corsica business logic', () => {
-  it('requires the testrunner to provide a flickr_api_key', () => {
+  it('requires the testrunner to provide a flickr_api_key env var', () => {
     assert.ok(process.env.flickr_api_key);
   });
 
