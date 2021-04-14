@@ -1,6 +1,6 @@
 {
   "name": "corsica-flickr-2",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "grab and display an image from flickr",
   "main": "index.js",
   "scripts": {
