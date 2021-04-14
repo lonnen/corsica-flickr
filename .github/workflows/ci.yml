@@ -19,7 +19,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
+      - name: Install the package and dependencies
+        run: npm ci
+      - name: Run the tests
+        run: npm run test
         env:
           flickr_api_key: ${{ secrets.flickr_api_key }}
-      - run: npm ci
-      - run: npm run test
