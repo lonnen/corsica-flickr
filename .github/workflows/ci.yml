@@ -21,4 +21,4 @@ jobs:
           node-version: 14.x
         env:
           flickr_api_key: ${{ secrets.flickr_api_key }}
-        run: npm run test
+      - run: npm run test
