@@ -13,5 +13,6 @@ module.exports = {
   rules: {
     'no-param-reassign': 'off',
     'no-console': 'off',
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
   },
 };
