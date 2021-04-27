@@ -1,10 +1,14 @@
 const assert = require('assert');
 const { describe, it } = require('mocha');
-const FlickrSDK = require('flickr-sdk');
 
-const { fetchRandomPhotoURL } = require('.');
+const { fetchRandomPhotoURL, FlickrSDK } = require('./impl.js');
+const corsicaFlickr = require('.');
 
-// eslint-disable-next-line no-underscore-dangle
+describe('corsica expects things about this module', () => {
+  it('should export as a function', () => {
+    assert.strictEqual(typeof corsicaFlickr, 'function');
+  });
+});
 
 describe('the non-corsica business logic', () => {
   it('requires the testrunner to provide a flickr_api_key env var', () => {

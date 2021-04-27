@@ -9,49 +9,30 @@
  *    lonnen
  */
 
-const FlickrSDK = require('flickr-sdk');
+const { fetchRandomPhotoURL, FlickrSDK } = require('./impl.js');
 
-const fetchRandomPhotoURL = (flickr, userID, photosetID) => flickr.photosets.getPhotos({
-  user_id: userID,
-  photoset_id: photosetID,
-})
-  .then((response) => {
-    const arr = response.body.photoset.photo;
-    return Promise.resolve(arr[Math.floor(Math.random() * arr.length)]);
-  })
-  .then((photo) => flickr.photos.getSizes({
-    photo_id: photo.id,
-  }))
-  .then((response) => {
-    const sizes = response.body.sizes.size;
-    return Promise.resolve(sizes[sizes.length - 1].source);
+module.exports = (corsica) => {
+  const flickr = new FlickrSDK(corsica.config.flickr_api_key);
+
+  corsica.on('content', (content) => {
+    if (!('url' in content)) {
+      return content;
+    }
+
+    const match = /^(https?:\/\/)?(www\.)?flickr.com\/photos\/(\S*)\/sets\/(\S*)?\/?$/.exec(content.url);
+
+    if (!match) {
+      return content;
+    }
+
+    const userID = match[3];
+    const photosetID = match[4];
+
+    return fetchRandomPhotoURL(flickr, userID, photosetID)
+      .then((imageURL) => {
+        content.url = imageURL;
+        return Promise.resolve(content);
+      })
+      .catch(console.error.bind(console));
   });
-
-module.exports = {
-  fetchRandomPhotoURL,
-  default: (corsica) => {
-    const flickr = new FlickrSDK(corsica.config.flickr_api_key);
-
-    corsica.on('content', (content) => {
-      if (!('url' in content)) {
-        return content;
-      }
-
-      const match = /^(https?:\/\/)?(www\.)?flickr.com\/photos\/(\S*)\/sets\/(\S*)?\/?$/.exec(content.url);
-
-      if (!match) {
-        return content;
-      }
-
-      const userID = match[3];
-      const photosetID = match[4];
-
-      return fetchRandomPhotoURL(flickr, userID, photosetID)
-        .then((imageURL) => {
-          content.url = imageURL;
-          return Promise.resolve(content);
-        })
-        .catch(console.error.bind(console));
-    });
-  },
 };
